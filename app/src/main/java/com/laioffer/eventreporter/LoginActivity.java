@@ -32,19 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mUsernameEditText = (EditText) findViewById(R.id.editTextLogin);
-
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-                mUsernameEditText.setText(sharedText);
-            }
-        }
-
         mPasswordEditText = (EditText) findViewById(R.id.editTextPassword);
         mSubmitButton = (Button) findViewById(R.id.submit);
         mRegisterButton = (Button) findViewById(R.id.register);
@@ -86,9 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(username) && (password.equals(dataSnapshot.child(username).child("password").getValue()))) {
-                            Intent myIntent = new Intent(LoginActivity.this, EventActivity.class);
-                            Utils.username = username;
-                            startActivity(myIntent);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getBaseContext(),"Please login again", Toast.LENGTH_SHORT).show();
                         }
